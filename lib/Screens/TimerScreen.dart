@@ -32,12 +32,12 @@ class Pomodoro {
   }
 }
 
-class timerScreen extends StatefulWidget {
+class TimerScreen extends StatefulWidget {
   @override
   _timerScreenState createState() => _timerScreenState();
 }
 
-class _timerScreenState extends State<timerScreen> {
+class _timerScreenState extends State<TimerScreen> {
   Stopwatch _sw;
   Timer _timer;
   Duration _timeLeft = const Duration();
@@ -128,7 +128,114 @@ class _timerScreenState extends State<timerScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayPomodoroStatus(), Container()]);
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        // displayPomodoroStatus(),
+        Container(
+            decoration: new BoxDecoration(
+                //  boxShadow: [
+                //    new BoxShadow() //тень для индикатора
+                //   ],
+                ),
+            child: CircularPercentIndicator(
+              radius: 250.0,
+              lineWidth: 20.0,
+              percent: _timeLeft.inSeconds / _pomodoro.time.inSeconds,
+              center: displayTimeString(),
+              progressColor: Colors.red,
+            )),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.circle, color: Colors.red, size: 40),
+            Text(
+              '${_pomodoro.count.toString()}',
+              style: const TextStyle(fontSize: 40.0),
+            ),
+          ],
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                decoration: new BoxDecoration(
+                  borderRadius: new BorderRadius.all(new Radius.circular(20.0)),
+                  color: Colors.white,
+                  boxShadow: [
+                    new BoxShadow(
+                        color: Colors.grey,
+                        offset: new Offset(10.0, 5.0),
+                        blurRadius: 20.0,
+                        spreadRadius: 5.0)
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.red,
+                        shape: const CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons
+                            .calendar_today_sharp), //Icon(_sw.isRunning ? null : Icons.refresh),
+                        color: Colors.red,
+                        iconSize: 42,
+                        onPressed: () => _resetButtonPressed(),
+                      ),
+                    ),
+                    Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.red,
+                        shape: const CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.play_arrow),
+                        // icon: Icon(_sw.isRunning ? Icons.pause : Icons.play_arrow),
+                        color: Colors.red,
+                        iconSize: 42,
+                        onPressed: () => _buttonPressed(),
+                      ),
+                    ),
+                    Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.red,
+                        shape: const CircleBorder(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.settings),
+                        // icon: Icon(_sw.isRunning ? Icons.pause : Icons.play_arrow),
+                        color: Colors.red,
+                        iconSize: 42,
+                        onPressed: () => _buttonPressed(),
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void _resetButtonPressed() {
+    if (!_sw.isRunning) {
+      setState(() {
+        _sw.reset();
+      });
+    }
+  }
+
+  void _buttonPressed() {
+    setState(() {
+      if (_sw.isRunning) {
+        _sw.stop();
+      } else {
+        _sw.start();
+      }
+    });
   }
 }

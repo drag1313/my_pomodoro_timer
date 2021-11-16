@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
 
-import 'Screens/settingsScreen.dart';
-import 'Screens/timerScreen.dart';
-
 void main() => runApp(BaseApp());
 
 class BaseApp extends StatefulWidget {
@@ -19,7 +16,7 @@ class _BaseAppState extends State<BaseApp> {
         ),
         home: Scaffold(
           body: SafeArea(
-            child: timerScreen(),
+            child: TimerScreen(),
           ),
         ),
       );
