@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 const Duration workTime = Duration(minutes: 25);
@@ -180,12 +182,17 @@ class _timerScreenState extends State<TimerScreen> {
                         shape: const CircleBorder(),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons
-                            .calendar_today_sharp), //Icon(_sw.isRunning ? null : Icons.refresh),
-                        color: Colors.red,
-                        iconSize: 42,
-                        onPressed: () => _resetButtonPressed(),
-                      ),
+                          icon: Icon(Icons
+                              .calendar_today_sharp), //Icon(_sw.isRunning ? null : Icons.refresh),
+                          color: Colors.red,
+                          iconSize: 42,
+                          onPressed: () {
+                            _resetButtonPressed();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CalendarScreen()));
+                          }),
                     ),
                     Ink(
                       decoration: ShapeDecoration(
@@ -206,12 +213,17 @@ class _timerScreenState extends State<TimerScreen> {
                         shape: const CircleBorder(),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.settings),
-                        // icon: Icon(_sw.isRunning ? Icons.pause : Icons.play_arrow),
-                        color: Colors.red,
-                        iconSize: 42,
-                        onPressed: () => _buttonPressed(),
-                      ),
+                          icon: Icon(Icons.settings),
+                          // icon: Icon(_sw.isRunning ? Icons.pause : Icons.play_arrow),
+                          color: Colors.red,
+                          iconSize: 42,
+                          onPressed: () {
+                            _buttonPressed();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => settingsScreen()));
+                          }),
                     ),
                   ],
                 )),
