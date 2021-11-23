@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarScreen extends StatefulWidget {
+class calendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends State<calendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay;
@@ -55,35 +55,3 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-class CalendarScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: Center(
-                child: Container(
-      child: Text('Calendar'),
-    ))));
-  }
-}*/

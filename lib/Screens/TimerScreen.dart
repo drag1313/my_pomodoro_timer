@@ -191,7 +191,7 @@ class _timerScreenState extends State<TimerScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CalendarScreen()));
+                                    builder: (context) => calendarScreen()));
                           }),
                     ),
                     Ink(
