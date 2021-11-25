@@ -5,9 +5,9 @@ import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
 import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-const Duration workTime = Duration(minutes: 25);
-const Duration shortBreakTime = Duration(minutes: 5);
-const Duration longBreakTime = Duration(minutes: 15);
+const Duration workTime = Duration(minutes: 1);
+const Duration shortBreakTime = Duration(minutes: 1);
+const Duration longBreakTime = Duration(minutes: 1);
 const int longBreakAfter = 3;
 const int targetInterval = 6;
 
@@ -101,8 +101,19 @@ class _timerScreenState extends State<TimerScreen> {
         (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
     final String seconds =
         (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
-    return Text('$minutes:$seconds',
-        style: const TextStyle(fontSize: 70.0, color: Colors.red));
+    return Stack(
+      children: [
+        Container(
+            margin: EdgeInsets.only(left: 20),
+            child: Text('0/3 Pomodoro',
+                style: const TextStyle(fontSize: 20.0, color: Colors.red))),
+        Container(
+          padding: EdgeInsets.only(top: 20),
+          child: Text('$minutes:$seconds',
+              style: const TextStyle(fontSize: 70.0, color: Colors.red)),
+        )
+      ],
+    );
   }
 
   Widget displayPomodoroStatus() {
@@ -162,6 +173,8 @@ class _timerScreenState extends State<TimerScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+                height: 80,
+                width: 380,
                 decoration: new BoxDecoration(
                   borderRadius: new BorderRadius.all(new Radius.circular(20.0)),
                   color: Colors.white,
@@ -187,7 +200,7 @@ class _timerScreenState extends State<TimerScreen> {
                           color: Colors.red,
                           iconSize: 42,
                           onPressed: () {
-                            _resetButtonPressed();
+                            // _resetButtonPressed();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -200,8 +213,9 @@ class _timerScreenState extends State<TimerScreen> {
                         shape: const CircleBorder(),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.play_arrow),
-                        // icon: Icon(_sw.isRunning ? Icons.pause : Icons.play_arrow),
+                        //  icon: Icon(Icons.play_arrow),
+                        icon: Icon(
+                            _sw.isRunning ? Icons.pause : Icons.play_arrow),
                         color: Colors.red,
                         iconSize: 42,
                         onPressed: () => _buttonPressed(),
@@ -218,7 +232,7 @@ class _timerScreenState extends State<TimerScreen> {
                           color: Colors.red,
                           iconSize: 42,
                           onPressed: () {
-                            _buttonPressed();
+                            // _buttonPressed();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

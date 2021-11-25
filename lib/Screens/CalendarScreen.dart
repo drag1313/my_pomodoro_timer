@@ -14,10 +14,10 @@ class _CalendarScreenState extends State<calendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TableCalendar - Basics'),
-      ),
-      body: TableCalendar(
+        body: SafeArea(
+            child: Container(
+      margin: EdgeInsets.only(top: 30),
+      child: TableCalendar(
         firstDay: DateTime.utc(2010, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         focusedDay: _focusedDay,
@@ -52,6 +52,6 @@ class _CalendarScreenState extends State<calendarScreen> {
           _focusedDay = focusedDay;
         },
       ),
-    );
+    )));
   }
 }
