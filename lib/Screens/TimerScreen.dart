@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
 import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const Duration workTime = Duration(minutes: 1);
-const Duration shortBreakTime = Duration(minutes: 1);
-const Duration longBreakTime = Duration(minutes: 1);
+const Duration shortBreakTime = Duration(minutes: 2);
+const Duration longBreakTime = Duration(minutes: 3);
 const int longBreakAfter = 3;
 const int targetInterval = 6;
+int SessionCount = 1;
+settingsScreen sc;
+bool isPause = false;
 
 enum Status {
   work,
@@ -101,11 +105,12 @@ class _timerScreenState extends State<TimerScreen> {
         (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
     final String seconds =
         (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
+
     return Stack(
       children: [
         Container(
             margin: EdgeInsets.only(left: 20),
-            child: Text('0/3 Pomodoro',
+            child: Text('${_pomodoro.count.toString()} of 3 Sessions',
                 style: const TextStyle(fontSize: 20.0, color: Colors.red))),
         Container(
           padding: EdgeInsets.only(top: 20),
@@ -140,6 +145,7 @@ class _timerScreenState extends State<TimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -158,15 +164,44 @@ class _timerScreenState extends State<TimerScreen> {
                 center: displayTimeString(),
                 progressColor: Colors.red,
               )),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              Icon(Icons.circle, color: Colors.red, size: 40),
-              Text(
-                '${_pomodoro.count.toString()}',
-                style: const TextStyle(fontSize: 40.0),
+              isPause
+                  ? GestureDetector(
+                      onTap: () {
+                        _buttonPressedPause();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        height: 50,
+                        width: screenSize.width * 0.45,
+                        decoration: new BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.red),
+                          borderRadius: new BorderRadius.all(
+                            new Radius.circular(7.0),
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text('PAUSE',
+                              style: const TextStyle(
+                                  fontSize: 20.0, color: Colors.red)),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${_pomodoro.count.toString()}',
+                    style: const TextStyle(fontSize: 25.0),
+                  ),
+                  Icon(Icons.circle, color: Colors.red, size: 25),
+                ],
               ),
+              Text('this session',
+                  style: const TextStyle(fontSize: 20.0, color: Colors.grey)),
             ],
           ),
 
@@ -261,7 +296,21 @@ class _timerScreenState extends State<TimerScreen> {
   void _buttonPressed() {
     setState(() {
       if (_sw.isRunning) {
-        _sw.stop();
+        _sw.reset();
+        _sw.stop(); //stop
+        isPause = false;
+      } else {
+        _sw.start();
+        isPause = true;
+      }
+    });
+  }
+
+  void _buttonPressedPause() {
+    setState(() {
+      if (_sw.isRunning) {
+        _sw.stop(); //stop
+
       } else {
         _sw.start();
       }

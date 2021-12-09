@@ -9,6 +9,11 @@ class settingsScreen extends StatefulWidget {
 }
 
 class settingsScreenState extends State<settingsScreen> {
+  int LongBreak;
+  int PomodoroCount;
+  int ShortBreak;
+  int SprintCount;
+  String _value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,81 +27,142 @@ class settingsScreenState extends State<settingsScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Pomodoro',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.red)),
-                                ConstrainedBox(
-                                  constraints:
-                                      BoxConstraints.tight(const Size(30, 50)),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter
-                                          .singleLineFormatter
-                                    ], // Only numbers can be entered
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // Red border with the width is equal to 5
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 2, color: Colors.red[100]),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Pomodoro',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.red)),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints.tight(
+                                        const Size(30, 40)),
+                                    child: TextFormField(
+                                      decoration: InputDecoration.collapsed(
+                                          hintText: ""),
+
+                                      onChanged: (text) =>
+                                          PomodoroCount = int.parse(text),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter
+                                            .singleLineFormatter
+                                      ], // Only numbers can be entered
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Short Break',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.red)),
-                                ConstrainedBox(
-                                  constraints:
-                                      BoxConstraints.tight(const Size(30, 50)),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter
-                                          .singleLineFormatter
-                                    ], // Only numbers can be entered
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // Red border with the width is equal to 5
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 2, color: Colors.red[100]),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Short Break',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.red)),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints.tight(
+                                        const Size(30, 40)),
+                                    child: TextFormField(
+                                      decoration: InputDecoration.collapsed(
+                                          hintText: ""),
+                                      onChanged: (text) =>
+                                          ShortBreak = int.parse(text),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter
+                                            .singleLineFormatter
+                                      ], // Only numbers can be entered
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Long Break',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.red)),
-                                ConstrainedBox(
-                                  constraints:
-                                      BoxConstraints.tight(const Size(30, 50)),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter
-                                          .singleLineFormatter
-                                    ], // Only numbers can be entered
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // Red border with the width is equal to 5
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 2, color: Colors.red[100]),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Long Break',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.red)),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints.tight(
+                                        const Size(30, 40)),
+                                    child: TextFormField(
+                                      decoration: InputDecoration.collapsed(
+                                          hintText: ""),
+                                      onChanged: (text) =>
+                                          LongBreak = int.parse(text),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter
+                                            .singleLineFormatter
+                                      ], // Only numbers can be entered
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Sprint',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.red)),
-                                ConstrainedBox(
-                                  constraints:
-                                      BoxConstraints.tight(const Size(30, 50)),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter
-                                          .singleLineFormatter
-                                    ], // Only numbers can be entered
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // Red border with the width is equal to 5
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 2, color: Colors.red[100]),
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Sprint',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.red)),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints.tight(
+                                        const Size(30, 40)),
+                                    child: TextFormField(
+                                      decoration: InputDecoration.collapsed(
+                                          hintText: ""),
+                                      onChanged: (text) =>
+                                          SprintCount = int.parse(text),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter
+                                            .singleLineFormatter
+                                      ], // Only numbers can be entered
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,13 +172,25 @@ class settingsScreenState extends State<settingsScreen> {
                                         fontSize: 25, color: Colors.red)),
                                 ConstrainedBox(
                                   constraints:
-                                      BoxConstraints.tight(const Size(30, 50)),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter
-                                          .singleLineFormatter
-                                    ], // Only numbers can be entered
+                                      BoxConstraints.tight(const Size(150, 50)),
+                                  child: DropdownButton<String>(
+                                    items: [
+                                      DropdownMenuItem<String>(
+                                        child: Text('English'),
+                                        value: 'one',
+                                      ),
+                                      DropdownMenuItem<String>(
+                                        child: Text('Russian'),
+                                        value: 'two',
+                                      ),
+                                    ],
+                                    onChanged: (String value) {
+                                      setState(() {
+                                        _value = value;
+                                      });
+                                    },
+                                    hint: Text('Select Language'),
+                                    value: _value,
                                   ),
                                 ),
                               ],

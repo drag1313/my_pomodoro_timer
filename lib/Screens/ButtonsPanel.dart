@@ -35,13 +35,13 @@ class buttonsPanelState extends State<buttonsPanel> {
               children: <Widget>[
                 Ink(
                   decoration: ShapeDecoration(
-                    color: Colors.red,
+                    color: Colors.grey,
                     shape: const CircleBorder(),
                   ),
                   child: IconButton(
                       icon: Icon(Icons
                           .calendar_today_sharp), //Icon(_sw.isRunning ? null : Icons.refresh),
-                      color: Colors.red,
+                      color: Colors.grey,
                       iconSize: 42,
                       onPressed: () {
                         // _resetButtonPressed();
@@ -53,12 +53,12 @@ class buttonsPanelState extends State<buttonsPanel> {
                 ),
                 Ink(
                   decoration: ShapeDecoration(
-                    color: Colors.red,
+                    color: Colors.grey,
                     shape: const CircleBorder(),
                   ),
                   child: IconButton(
                     icon: Icon(Icons.play_arrow),
-                    color: Colors.red,
+                    color: Colors.grey,
                     iconSize: 42,
                     onPressed: () {
                       Navigator.push(
@@ -70,12 +70,12 @@ class buttonsPanelState extends State<buttonsPanel> {
                 ),
                 Ink(
                   decoration: ShapeDecoration(
-                    color: Colors.red,
+                    color: Colors.grey,
                     shape: const CircleBorder(),
                   ),
                   child: IconButton(
                       icon: Icon(Icons.settings),
-                      color: Colors.red,
+                      color: Colors.grey,
                       iconSize: 42,
                       onPressed: () {
                         Navigator.push(

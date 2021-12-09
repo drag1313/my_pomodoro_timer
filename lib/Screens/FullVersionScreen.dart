@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/ButtonsPanel.dart';
-import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
 
 class fullVersionScreen extends StatefulWidget {
   @override
@@ -12,9 +9,11 @@ class fullVersionScreen extends StatefulWidget {
 class fullVersionScreenState extends State<fullVersionScreen> {
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
-            child: Row(
+            child: Center(
+                child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Column(
@@ -38,7 +37,7 @@ class fullVersionScreenState extends State<fullVersionScreen> {
                   borderRadius: BorderRadius.all(new Radius.circular(50.0)),
                 ),
                 height: 75,
-                width: 330,
+                width: screenSize.width * 0.8,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red,
@@ -54,19 +53,20 @@ class fullVersionScreenState extends State<fullVersionScreen> {
             Container(child: Text('Tertms of Service and Privacy Policy ')),
             Container(
                 height: 200,
-                width: 400,
+                width: screenSize.width * 0.7,
                 child: Text(
                   'Отменить подписку можно в разделе\n"Настройки" Apple Id в любой момент,\n но не менее чем за день до даты возобновления. \n Подписка будет возобновляться автоматически, \n пока Вы ее не отмените.',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 15),
                 )),
             Container(
+              width: screenSize.width * 0.8,
               margin: EdgeInsets.only(bottom: 40),
               child: buttonsPanel(),
             )
           ],
         ),
       ],
-    )));
+    ))));
   }
 }
