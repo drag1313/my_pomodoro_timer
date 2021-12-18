@@ -1,42 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
 import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
-const Duration workTime = Duration(minutes: 1);
-const Duration shortBreakTime = Duration(minutes: 2);
-const Duration longBreakTime = Duration(minutes: 3);
-const int longBreakAfter = 3;
-const int targetInterval = 6;
-int SessionCount = 1;
-settingsScreen sc;
 bool isPause = false;
-
-enum Status {
-  work,
-  shortBreak,
-  longBreak,
-}
-
-class Pomodoro {
-  Pomodoro({
-    this.time,
-    this.status,
-    this.count,
-  });
-
-  Duration time;
-  Status status;
-  int count;
-
-  void setParam({Duration time, Status status}) {
-    this.time = time;
-    this.status = status;
-  }
-}
+int _duration = 10;
+CountDownController _controller = CountDownController();
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -44,132 +13,134 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _timerScreenState extends State<TimerScreen> {
-  Stopwatch _sw;
-  Timer _timer;
-  Duration _timeLeft = const Duration();
-
-  final Pomodoro _pomodoro = Pomodoro(
-    time: workTime,
-    status: Status.work,
-    count: 0,
-  );
-
-  @override
-  void initState() {
-    _pomodoro.time = workTime;
-    _sw = Stopwatch();
-    _timer = Timer.periodic(const Duration(milliseconds: 50), _callback);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _timer = null;
-    super.dispose();
-  }
-
-  void _callback(Timer timer) {
-    if (_sw.elapsed > _pomodoro.time) {
-      setState(() {
-        _changeNextStatus();
-      });
-      return;
-    }
-
-    final Duration _newTimeLeft = _pomodoro.time - _sw.elapsed;
-    if (_newTimeLeft.inSeconds != _timeLeft.inSeconds) {
-      setState(() {
-        _timeLeft = _newTimeLeft;
-      });
-    }
-  }
-
-  void _changeNextStatus() {
-    _sw.stop();
-    _sw.reset();
-    if (_pomodoro.status == Status.work) {
-      _pomodoro.count++;
-      if (_pomodoro.count % longBreakAfter == 0) {
-        _pomodoro.setParam(time: longBreakTime, status: Status.longBreak);
-      } else {
-        _pomodoro.setParam(time: shortBreakTime, status: Status.shortBreak);
-      }
-    } else {
-      _pomodoro.setParam(time: workTime, status: Status.work);
-    }
-  }
-
-  Widget displayTimeString() {
-    final String minutes =
-        (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
-    final String seconds =
-        (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
-
-    return Stack(
-      children: [
-        Container(
-            margin: EdgeInsets.only(left: 20),
-            child: Text('${_pomodoro.count.toString()} of 3 Sessions',
-                style: const TextStyle(fontSize: 20.0, color: Colors.red))),
-        Container(
-          padding: EdgeInsets.only(top: 20),
-          child: Text('$minutes:$seconds',
-              style: const TextStyle(fontSize: 70.0, color: Colors.red)),
-        )
-      ],
-    );
-  }
-
-  Widget displayPomodoroStatus() {
-    String text;
-    if (_pomodoro.status == Status.work) {
-      text = 'Work';
-    } else if (_pomodoro.status == Status.shortBreak) {
-      text = 'Short Break';
-    } else {
-      text = 'Long Break';
-    }
-    return Text(text, style: const TextStyle(fontSize: 30.0));
-  }
-
-  Color _getColor() {
-    if (_pomodoro.status == Status.work) {
-      return Colors.blue;
-    } else if (_pomodoro.status == Status.shortBreak) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    var count = 5;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          Container(
+            child: Center(
+                child: CircularCountDownTimer(
+              // Countdown duration in Seconds.
+              duration: _duration,
+
+              // Countdown initial elapsed Duration in Seconds.
+              initialDuration: 0,
+
+              // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
+              controller: _controller,
+
+              // Width of the Countdown Widget.
+              width: MediaQuery.of(context).size.width / 2,
+
+              // Height of the Countdown Widget.
+              height: MediaQuery.of(context).size.height / 2,
+
+              // Ring Color for Countdown Widget.
+              ringColor: Colors.grey[300]!,
+
+              // Ring Gradient for Countdown Widget.
+              ringGradient: null,
+
+              // Filling Color for Countdown Widget.
+              fillColor: Colors.purpleAccent[100]!,
+
+              // Filling Gradient for Countdown Widget.
+              fillGradient: null,
+
+              // Background Color for Countdown Widget.
+              backgroundColor: Colors.purple[500],
+
+              // Background Gradient for Countdown Widget.
+              backgroundGradient: null,
+
+              // Border Thickness of the Countdown Ring.
+              strokeWidth: 20.0,
+
+              // Begin and end contours with a flat edge and no extension.
+              strokeCap: StrokeCap.round,
+
+              // Text Style for Countdown Text.
+              textStyle: TextStyle(
+                  fontSize: 33.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+
+              // Format for the Countdown Text.
+              textFormat: CountdownTextFormat.S,
+
+              // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
+              isReverse: false,
+
+              // Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
+              isReverseAnimation: false,
+
+              // Handles visibility of the Countdown Text.
+              isTimerTextShown: true,
+
+              // Handles the timer start.
+              autoStart: false,
+
+              // This Callback will execute when the Countdown Starts.
+              onStart: () {
+                // Here, do whatever you want
+                print('Countdown Started');
+              },
+
+              // This Callback will execute when the Countdown Ends.
+              onComplete: () {
+                // Here, do whatever you want
+                print('Countdown Ended');
+              },
+            )),
+            /*  floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 30,
+          ),
+          _button(title: "Start", onPressed: () => _controller.start()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(title: "Pause", onPressed: () => _controller.pause()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(title: "Resume", onPressed: () => _controller.resume()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(
+              title: "Restart",
+              onPressed: () => _controller.restart(duration: _duration))
+        ],
+      ),*/
+          ),
           // displayPomodoroStatus(),
           Container(
-              decoration: new BoxDecoration(
-                  //  boxShadow: [
-                  //    new BoxShadow() //тень для индикатора
-                  //   ],
-                  ),
-              child: CircularPercentIndicator(
+            decoration: new BoxDecoration(
+                //  boxShadow: [
+                //    new BoxShadow() //тень для индикатора
+                //   ],
+                ),
+            /*  child: CircularPercentIndicator(
                 radius: 250.0,
                 lineWidth: 20.0,
                 percent: _timeLeft.inSeconds / _pomodoro.time.inSeconds,
                 center: displayTimeString(),
                 progressColor: Colors.red,
-              )),
+              )*/
+          ),
           Column(
             children: [
               isPause
                   ? GestureDetector(
                       onTap: () {
-                        _buttonPressedPause();
+                        _controller.pause();
                       },
                       child: Container(
                         margin: EdgeInsets.only(bottom: 20),
@@ -194,7 +165,7 @@ class _timerScreenState extends State<TimerScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${_pomodoro.count.toString()}',
+                    '${count.toString()}',
                     style: const TextStyle(fontSize: 25.0),
                   ),
                   Icon(Icons.circle, color: Colors.red, size: 25),
@@ -251,11 +222,10 @@ class _timerScreenState extends State<TimerScreen> {
                         ),
                         child: IconButton(
                           //  icon: Icon(Icons.play_arrow),
-                          icon: Icon(
-                              _sw.isRunning ? Icons.stop : Icons.play_arrow),
+                          icon: Icon(Icons.play_arrow),
                           color: Colors.red,
                           iconSize: 42,
-                          onPressed: () => _buttonPressed(),
+                          onPressed: () => {_controller.start()},
                         ),
                       ),
                       Ink(
@@ -283,37 +253,5 @@ class _timerScreenState extends State<TimerScreen> {
         ],
       ),
     );
-  }
-
-  void _resetButtonPressed() {
-    if (!_sw.isRunning) {
-      setState(() {
-        _sw.reset();
-      });
-    }
-  }
-
-  void _buttonPressed() {
-    setState(() {
-      if (_sw.isRunning) {
-        _sw.reset();
-        _sw.stop(); //stop
-        isPause = false;
-      } else {
-        _sw.start();
-        isPause = true;
-      }
-    });
-  }
-
-  void _buttonPressedPause() {
-    setState(() {
-      if (_sw.isRunning) {
-        _sw.stop(); //stop
-
-      } else {
-        _sw.start();
-      }
-    });
   }
 }

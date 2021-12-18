@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/altTimerScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/newTimer.dart';
 
 void main() => runApp(BaseApp());
 
@@ -16,7 +18,8 @@ class _BaseAppState extends State<BaseApp> {
         ),
         home: Scaffold(
           body: SafeArea(
-            child: TimerScreen(),
+            child:
+                TimerScreen(), //MyHomePage(title: 'Circular Countdown Timer'),
           ),
         ),
       );

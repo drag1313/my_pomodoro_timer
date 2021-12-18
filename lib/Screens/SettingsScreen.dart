@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pomodoro_timer/Screens/ButtonsPanel.dart';
 import 'package:flutter_pomodoro_timer/Screens/FullVersionScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
 
 class settingsScreen extends StatefulWidget {
   @override
   settingsScreenState createState() => settingsScreenState();
 }
 
+class timersData {
+  int LongBreak = 5;
+  int PomodoroCount = 7;
+  int ShortBreak = 9;
+  int WorkTime = 4;
+  int SprintCount = 20;
+}
+
 class settingsScreenState extends State<settingsScreen> {
-  int LongBreak;
-  int PomodoroCount;
-  int ShortBreak;
-  int SprintCount;
-  String _value;
+  String? _value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +38,8 @@ class settingsScreenState extends State<settingsScreen> {
                                   color: Colors.white,
                                   // Red border with the width is equal to 5
                                   border: Border(
-                                    bottom: BorderSide(
-                                        width: 2, color: Colors.red[100]),
+                                    bottom:
+                                        BorderSide(width: 2, color: Colors.red),
                                   )),
                               child: Row(
                                 mainAxisAlignment:
@@ -50,8 +56,8 @@ class settingsScreenState extends State<settingsScreen> {
                                       decoration: InputDecoration.collapsed(
                                           hintText: ""),
 
-                                      onChanged: (text) =>
-                                          PomodoroCount = int.parse(text),
+                                      onChanged: (text) => timersData()
+                                          .PomodoroCount = int.parse(text),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter
@@ -67,8 +73,8 @@ class settingsScreenState extends State<settingsScreen> {
                                   color: Colors.white,
                                   // Red border with the width is equal to 5
                                   border: Border(
-                                    bottom: BorderSide(
-                                        width: 2, color: Colors.red[100]),
+                                    bottom:
+                                        BorderSide(width: 2, color: Colors.red),
                                   )),
                               child: Row(
                                 mainAxisAlignment:
@@ -84,8 +90,8 @@ class settingsScreenState extends State<settingsScreen> {
                                     child: TextFormField(
                                       decoration: InputDecoration.collapsed(
                                           hintText: ""),
-                                      onChanged: (text) =>
-                                          ShortBreak = int.parse(text),
+                                      onChanged: (text) => timersData()
+                                          .ShortBreak = int.parse(text),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter
@@ -101,8 +107,8 @@ class settingsScreenState extends State<settingsScreen> {
                                   color: Colors.white,
                                   // Red border with the width is equal to 5
                                   border: Border(
-                                    bottom: BorderSide(
-                                        width: 2, color: Colors.red[100]),
+                                    bottom:
+                                        BorderSide(width: 2, color: Colors.red),
                                   )),
                               child: Row(
                                 mainAxisAlignment:
@@ -118,8 +124,12 @@ class settingsScreenState extends State<settingsScreen> {
                                     child: TextFormField(
                                       decoration: InputDecoration.collapsed(
                                           hintText: ""),
-                                      onChanged: (text) =>
-                                          LongBreak = int.parse(text),
+                                      onChanged: (text) => timersData()
+                                          .LongBreak = int.parse(text),
+                                      onSaved: (String? inValue) {
+                                        timersData().LongBreak =
+                                            int.parse(inValue!);
+                                      },
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter
@@ -135,8 +145,8 @@ class settingsScreenState extends State<settingsScreen> {
                                   color: Colors.white,
                                   // Red border with the width is equal to 5
                                   border: Border(
-                                    bottom: BorderSide(
-                                        width: 2, color: Colors.red[100]),
+                                    bottom:
+                                        BorderSide(width: 2, color: Colors.red),
                                   )),
                               child: Row(
                                 mainAxisAlignment:
@@ -152,8 +162,12 @@ class settingsScreenState extends State<settingsScreen> {
                                     child: TextFormField(
                                       decoration: InputDecoration.collapsed(
                                           hintText: ""),
-                                      onChanged: (text) =>
-                                          SprintCount = int.parse(text),
+                                      onChanged: (text) => timersData()
+                                          .SprintCount = int.parse(text),
+                                      onSaved: (String? inValue) {
+                                        timersData().WorkTime =
+                                            int.parse(inValue!);
+                                      },
                                       keyboardType: TextInputType.number,
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter
@@ -184,7 +198,7 @@ class settingsScreenState extends State<settingsScreen> {
                                         value: 'two',
                                       ),
                                     ],
-                                    onChanged: (String value) {
+                                    onChanged: (String? value) {
                                       setState(() {
                                         _value = value;
                                       });

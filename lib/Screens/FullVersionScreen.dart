@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/ButtonsPanel.dart';
+import 'package:flutter_pomodoro_timer/Screens/altTimerScreen.dart';
 
 class fullVersionScreen extends StatefulWidget {
   @override
@@ -43,10 +44,10 @@ class fullVersionScreenState extends State<fullVersionScreen> {
                       primary: Colors.red,
                     ),
                     onPressed: () {
-                      /* Navigator.push(
+                      /*dart pub upgrade --null-safety Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => fullVersionScreen()));*/
+                              builder: (context) => altTimerScreen()));*/
                     },
                     child: Text('Buy Full Version',
                         style: TextStyle(color: Colors.white, fontSize: 20)))),
