@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/altTimerScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/newTimer.dart';
 
 void main() => runApp(BaseApp());
 

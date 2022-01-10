@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pomodoro_timer/Screens/ButtonsPanel.dart';
 import 'package:flutter_pomodoro_timer/Screens/FullVersionScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
-import 'package:flutter_pomodoro_timer/Screens/TimerScreen.dart';
 
 class settingsScreen extends StatefulWidget {
   @override

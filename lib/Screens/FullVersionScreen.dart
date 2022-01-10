@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/Screens/ButtonsPanel.dart';
-import 'package:flutter_pomodoro_timer/Screens/altTimerScreen.dart';
 
 class fullVersionScreen extends StatefulWidget {
   @override
