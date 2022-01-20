@@ -1,110 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pomodoro_timer/Screens/CalendarScreen.dart';
+import 'package:flutter_pomodoro_timer/Screens/FullVersionScreen.dart';
 import 'package:flutter_pomodoro_timer/Screens/SettingsScreen.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter_pomodoro_timer/bloc/bloc/timer_bloc.dart';
 
-int WorkTimeCounter = 0;
-int PomodoroCount = 0;
-int ShortBreakCount = 0;
-int ShortBreak = 5;
-int LongBreak = 25;
-int WorkTime = 10;
-bool isPausePress = false;
-bool isPause = false;
-bool isStop = false;
-late int duration;
-//TimerBloc? _bloc;
 CountDownController _controller = CountDownController();
 
 class TimerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TimerBloc _bloc = new TimerBloc(); //BlocProvider.of<TimerBloc>(context,
-//        listen: true); //BlocProvider.of<TimerBloc>(context);
+    TimerBloc _bloc = new TimerBloc();
     var screenSize = MediaQuery.of(context).size;
     var myWidth = MediaQuery.of(context).size.width / 2;
     var myHeight = MediaQuery.of(context).size.height / 2;
 
-    CircularCountDownTimer myLongBreakTimer = new CircularCountDownTimer(
-      width: myWidth,
-      height: myHeight,
-      duration: LongBreak,
-      fillColor: Colors.purpleAccent[100]!,
-      ringColor: Colors.grey[300]!,
-      strokeWidth: 20.0,
-      controller: _controller,
-      ringGradient: null,
-      fillGradient: null,
-      backgroundColor: Colors.purple[500],
-      backgroundGradient: null,
-      strokeCap: StrokeCap.round,
-      textStyle: TextStyle(
-          fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
-      textFormat: CountdownTextFormat.MM_SS,
-      isReverseAnimation: true,
-      isReverse: true,
-      isTimerTextShown: true,
-      autoStart: false,
-      onStart: () {},
-      onComplete: () {
-        WorkTimeCounter++;
-        /* setState(() {
-          if (WorkTimeCounter <= 2) {
-            // WorkTimeCounter++;
-          } else {
-            PomodoroCount++;
-            // WorkTimeCounter = 0;
-          }
-          print(WorkTimeCounter);
-          _controller.start();
-
-          ;
-        });*/
-      },
-    );
-    CircularCountDownTimer myShortBreakTimer = new CircularCountDownTimer(
-      width: myWidth,
-      height: myHeight,
-      duration: ShortBreak,
-      fillColor: Colors.purpleAccent[100]!,
-      ringColor: Colors.grey[300]!,
-      strokeWidth: 20.0,
-      controller: _controller,
-      ringGradient: null,
-      fillGradient: null,
-      backgroundColor: Colors.purple[500],
-      backgroundGradient: null,
-      strokeCap: StrokeCap.round,
-      textStyle: TextStyle(
-          fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
-      textFormat: CountdownTextFormat.MM_SS,
-      isReverseAnimation: true,
-      isReverse: true,
-      isTimerTextShown: true,
-      autoStart: false,
-      onStart: () {},
-      onComplete: () {
-        WorkTimeCounter++;
-        /* setState(() {
-          if (WorkTimeCounter <= 2) {
-            //WorkTimeCounter++;
-          } else {
-            PomodoroCount++;
-            WorkTimeCounter = 0;
-          }
-          print(WorkTimeCounter);
-          _controller.start();
-
-          ;
-        });*/
-      },
-    );
     CircularCountDownTimer myWorkTimer = new CircularCountDownTimer(
       width: myWidth,
       height: myHeight,
-      duration: WorkTime,
+      duration: _bloc.durationTime,
       fillColor: Colors.purpleAccent[100]!,
       ringColor: Colors.grey[300]!,
       strokeWidth: 20.0,
@@ -122,20 +37,7 @@ class TimerScreen extends StatelessWidget {
       isTimerTextShown: true,
       autoStart: false,
       onStart: () {},
-      onComplete: () {
-        /*setState(() {
-          if (WorkTimeCounter <= 2) {
-            WorkTimeCounter++;
-          } else {
-            PomodoroCount++;
-            // WorkTimeCounter = 0;
-          }
-          print(WorkTimeCounter);
-          _controller.start();
-
-          ;
-        });*/
-      },
+      onComplete: () {},
     );
     return Scaffold(
         body: BlocBuilder(
@@ -147,9 +49,9 @@ class TimerScreen extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       child: Center(
-                          child: (WorkTimeCounter <= 2)
-                              ? Container(child: myWorkTimer)
-                              : Container(child: myLongBreakTimer)
+                          child: // _bloc.WorkTimeCounter == 0
+                              Container(child: myWorkTimer)
+                          // : Container(child: myLongBreakTimer)
 
                           /* CircularCountDownTimer(
               // Countdown duration in Seconds.
@@ -250,20 +152,17 @@ class TimerScreen extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        isPause
+                        _bloc.isPausePress
                             ? GestureDetector(
                                 onTap: () {
-                                  if (!isPausePress) {
+                                  _bloc.add(PauseEvent());
+                                  if (!_bloc.isPausePress) {
                                     _controller.pause();
-                                    isPausePress = true;
+                                    _bloc.isPausePress = true;
                                   } else {
                                     _controller.resume();
-                                    isPausePress = false;
+                                    _bloc.isPausePress = false;
                                   }
-
-                                  /*  setState(() {
-                                    isStop = !isStop;
-                                  });*/
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(bottom: 20),
@@ -278,7 +177,7 @@ class TimerScreen extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   child: Center(
-                                      child: isStop
+                                      child: (state is PauseState)
                                           ? Text('RESUME',
                                               style: const TextStyle(
                                                   fontSize: 20.0,
@@ -294,8 +193,9 @@ class TimerScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '${PomodoroCount.toString()}',
-                              style: const TextStyle(fontSize: 25.0),
+                              '${_bloc.PomodoroCount.toString()}',
+                              style: const TextStyle(
+                                  fontSize: 25.0, color: Colors.red),
                             ),
                             Icon(Icons.circle, color: Colors.red, size: 25),
                           ],
@@ -315,25 +215,18 @@ class TimerScreen extends StatelessWidget {
                               borderRadius: new BorderRadius.all(
                                   new Radius.circular(20.0)),
                               color: Colors.white,
-                              boxShadow: [
-                                new BoxShadow(
-                                    color: Colors.grey,
-                                    offset: new Offset(10.0, 5.0),
-                                    blurRadius: 20.0,
-                                    spreadRadius: 5.0)
-                              ],
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
                                 Ink(
                                   decoration: ShapeDecoration(
-                                    color: Colors.red,
+                                    color: Colors.grey,
                                     shape: const CircleBorder(),
                                   ),
                                   child: IconButton(
                                       icon: Icon(Icons.calendar_today_sharp),
-                                      color: Colors.red,
+                                      color: Colors.grey,
                                       iconSize: 42,
                                       onPressed: () {
                                         _bloc.add(CalendarEvent());
@@ -346,41 +239,40 @@ class TimerScreen extends StatelessWidget {
                                 ),
                                 Ink(
                                   decoration: ShapeDecoration(
-                                    color: Colors.red,
+                                    color: Colors.grey,
                                     shape: const CircleBorder(),
                                   ),
                                   child: IconButton(
-                                    icon: Icon(isPause
+                                    icon: Icon(_bloc.isPause
                                         ? Icons.stop
                                         : Icons.play_arrow),
-                                    color: Colors.red,
+                                    color: Colors.grey,
                                     iconSize: 42,
                                     onPressed: () {
-                                      /* setState(() {
-                                        _controller.start();
-                                        if (isPause) {
-                                        } else {
-                                          isPause = !isPause;
-                                        }
-                                      });*/
+                                      _controller.start();
+                                      if (_bloc.isPause) {
+                                      } else {
+                                        _bloc.isPause = !_bloc.isPause;
+                                      }
                                     },
                                   ),
                                 ),
                                 Ink(
                                   decoration: ShapeDecoration(
-                                    color: Colors.red,
+                                    color: Colors.grey,
                                     shape: const CircleBorder(),
                                   ),
                                   child: IconButton(
                                       icon: Icon(Icons.settings),
-                                      color: Colors.red,
+                                      color: Colors.grey,
                                       iconSize: 42,
                                       onPressed: () {
-                                        Navigator.push(
+                                        _bloc.add(SettingsEvent());
+                                        /*  Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    settingsScreen()));
+                                                    settingsScreen()));*/
                                       }),
                                 ),
                               ],
@@ -395,6 +287,17 @@ class TimerScreen extends StatelessWidget {
                   child: calendarScreen(),
                 );
               }
+              if (state is SettingsScreenState) {
+                return Container(
+                  child: settingsScreen(),
+                );
+              }
+              if (state is FullVersionScreenState) {
+                return Container(
+                  child: fullVersionScreen(),
+                );
+              }
+
               return Container(child: Center(child: Text('ERROR')));
             }));
   }
